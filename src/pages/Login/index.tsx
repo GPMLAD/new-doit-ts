@@ -20,7 +20,8 @@ interface iLoginData{
 export function Login(){
   
   const { register, handleSubmit ,formState: {errors}} = useForm<iLoginData>({
-    resolver: yupResolver(loginSchema)
+    resolver: yupResolver(loginSchema),
+    mode: "onTouched"
   })
 
   const submitLogin:SubmitHandler<iLoginData> = (data) => {
@@ -63,7 +64,7 @@ export function Login(){
             <VStack spacing='4'>
               <Input {...register("email")} icon={FaEnvelope} type='email' name="email" label="E-mail" placeholder="Digite seu e-mail" error={errors.email}/>
 
-              <Input {...register("password")} icon={FaLock} name="password" label="Senha" placeholder="Digite sua senha" error={errors.password}/>
+              <Input {...register("password")} icon={FaLock} name="password" type="password" label="Senha" placeholder="Digite sua senha" error={errors.password}/>
             </VStack>
             <Button type="submit">Entrar</Button>
           </Grid>

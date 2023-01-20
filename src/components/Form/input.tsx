@@ -5,7 +5,7 @@ import { FormControl,
   InputProps as ChakraInputProps, 
   InputLeftElement, 
   InputGroup} from "@chakra-ui/react";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FieldError } from "react-hook-form";
 import { IconType } from "react-icons";
 import { forwardRef } from "react";
@@ -30,7 +30,7 @@ const inputVariation : inputVariationOptions = {
 
 export const Input = forwardRef<HTMLInputElement, iInputProps>(({ name, placeholder, error, icon: Icon, label , ...rest}, ref) => {
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [value, setValue] = useState("")
   const [variation, setVariation] = useState("default")
 
 
@@ -41,10 +41,10 @@ export const Input = forwardRef<HTMLInputElement, iInputProps>(({ name, placehol
   },[error])
 
   const handleInputBlur = useCallback(() => {
-    if(inputRef.current?.value && !error){
+    if(value.length > 1 && !error){
       return setVariation("filled")
     }
-  },[error])
+  },[error,value])
 
   useEffect(() => {
     if(error){
@@ -64,7 +64,8 @@ export const Input = forwardRef<HTMLInputElement, iInputProps>(({ name, placehol
           </InputLeftElement>
           )
         }
-        <ChakraInput 
+        <ChakraInput
+        onChangeCapture={(e) => setValue(e.currentTarget.value)} 
         ref={ref}
         name={name} 
         placeholder={placeholder} 
